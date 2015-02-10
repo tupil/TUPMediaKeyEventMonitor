@@ -66,17 +66,20 @@ const static NSString* TUPMediaKeyEventMonitorEnabledKey = @"TUPMediaKeyEventMon
 
 -(void)startMonitoring
 {
-    NSAssert(keyEventTapThread == nil, @"Should not be already watching media keys");
+    // Every app using this framework needs to have this in the bundle, so other apps can check if
+    // they should let key events through (if they are not frontmost)
     NSAssert([[[NSBundle mainBundle] infoDictionary][TUPMediaKeyEventMonitorEnabledKey] boolValue], @"Enable TUPMediaKeyEventMonitor adding the key ‘TUPMediaKeyEventMonitorEnabled’ in the Info.plist with the boolean value YES.");
 
-    [self setKeyTapEnabled:YES];
+    if (keyEventTapThread == nil) {
+        [self setKeyTapEnabled:YES];
+    }
 }
 
 -(void)stopMonitoring
 {
-    NSAssert(keyEventTapThread != nil, @"Should be watching media keys");
-
-    [self setKeyTapEnabled:NO];
+    if (keyEventTapThread != nil) {
+        [self setKeyTapEnabled:NO];
+    }
 }
 
 - (void)handleLocalMediaKeyEvent:(NSEvent*)event {
