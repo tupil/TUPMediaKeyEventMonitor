@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name          = "TUPMediaKeyEventMonitor"
-  s.version       = "1.0.0"
+  s.version       = "1.0.1"
   s.summary       = "Monitor global key events for media keys."
 
   s.description   = <<-DESC
@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.license       = "BSD"
   s.author        = { "Eelco Lempsink" => "eml@tupil.com" }
   s.platform      = :osx, 10.9
-  s.source        = { :git => "https://github.com/tupil/TUPMediaKeyEventMonitor.git", :tag => "1.0.0" }
+  s.source        = { :git => "https://github.com/tupil/TUPMediaKeyEventMonitor.git", :tag => "#{s.version}" }
   s.source_files  = "*.{h,m}"
   s.frameworks    = "IOKit"
   s.requires_arc  = true
