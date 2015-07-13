@@ -152,19 +152,22 @@ const static NSString* TUPMediaKeyEventMonitorEnabledKey = @"TUPMediaKeyEventMon
 
         if ([keyPath isEqualToString:@"frontmostApplication"]) {
             NSRunningApplication* frontmost = [[NSWorkspace sharedWorkspace] frontmostApplication];
+            NSURL* frontmostBundleURL = [frontmost bundleURL];
 
-            NSBundle* frontmostBundle = [NSBundle bundleWithURL:[frontmost bundleURL]];
-            NSArray *whitelistIdentifiers = [[self class] knownMediaKeyMonitoringAppsBundleIdentifiers];
+            if (frontmostBundleURL != nil) {
+                NSBundle* frontmostBundle = [NSBundle bundleWithURL:frontmostBundleURL];
+                NSArray *whitelistIdentifiers = [[self class] knownMediaKeyMonitoringAppsBundleIdentifiers];
 
-            BOOL hasMediaKeyEventMonitorEnabled = [[frontmostBundle infoDictionary][TUPMediaKeyEventMonitorEnabledKey] boolValue];
-            BOOL isWhitelisted = [whitelistIdentifiers containsObject:frontmost.bundleIdentifier];
+                BOOL hasMediaKeyEventMonitorEnabled = [[frontmostBundle infoDictionary][TUPMediaKeyEventMonitorEnabledKey] boolValue];
+                BOOL isWhitelisted = [whitelistIdentifiers containsObject:frontmost.bundleIdentifier];
 
-            if (isWhitelisted || hasMediaKeyEventMonitorEnabled) {
-                @synchronized(runningMediaKeyAppsSortedByLastActive) {
-                    [runningMediaKeyAppsSortedByLastActive removeObject:frontmost];
-                    [runningMediaKeyAppsSortedByLastActive insertObject:frontmost atIndex:0];
+                if (isWhitelisted || hasMediaKeyEventMonitorEnabled) {
+                    @synchronized(runningMediaKeyAppsSortedByLastActive) {
+                        [runningMediaKeyAppsSortedByLastActive removeObject:frontmost];
+                        [runningMediaKeyAppsSortedByLastActive insertObject:frontmost atIndex:0];
 
-                    [self setKeyTapEnabled:[frontmost isEqual:[NSRunningApplication currentApplication]]];
+                        [self setKeyTapEnabled:[frontmost isEqual:[NSRunningApplication currentApplication]]];
+                    }
                 }
             }
         }
