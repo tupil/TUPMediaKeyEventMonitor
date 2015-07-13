@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name          = "TUPMediaKeyEventMonitor"
-  s.version       = "1.0.1"
+  s.version       = "1.0.2"
   s.summary       = "Monitor global key events for media keys."
 
   s.description   = <<-DESC
