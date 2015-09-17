@@ -31,7 +31,7 @@
 
 #import "TUPMediaKeyEventMonitor.h"
 
-const static NSString* TUPMediaKeyEventMonitorEnabledKey = @"TUPMediaKeyEventMonitorEnabled";
+static NSString* const TUPMediaKeyEventMonitorEnabledKey = @"TUPMediaKeyEventMonitorEnabled";
 
 @interface TUPMediaKeyEventMonitorThread : NSThread
 - (instancetype)initWithMediaKeyEventHandler:(BOOL (^)(NSEvent*))handler;
